@@ -33,6 +33,8 @@ int main(int argc, char* argv[])
     /*INITIALIZE */
     gtk_init(&argc, &argv);
 
+
+
     /* DIALOG'S ADDED */
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
@@ -76,5 +78,6 @@ int main(int argc, char* argv[])
         
     gtk_main();
     
+
     return 0;
 }
