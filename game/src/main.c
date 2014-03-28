@@ -6,34 +6,22 @@
 #define BTN_WIDTH       200
 #define BTN_HEIGHT      50
 
-static void button_test()
-{
-    printf("I'm testing button\n");
-}
 
-static void button_create (GtkWidget* hbox, const char* label, GCallback func, gint x, gint y)
-{
-    GtkWidget* btn_test = gtk_button_new_with_label (label); //BUTTON'S CREATED
-    gtk_widget_set_size_request(btn_test, BTN_WIDTH, BTN_HEIGHT); //SIZE CONTROL
-    gtk_fixed_put( GTK_FIXED(hbox), btn_test , x, y);
-    g_signal_connect( G_OBJECT (btn_test), "clicked", func, NULL);
-}
+GtkWidget* table=NULL;
+GtkWidget* window;
+GtkWidget* vbox;
+GtkWidget* selfStart;
+GtkWidget* makeRoom;
+GtkWidget* CloseBtn;
+GtkWidget* wins;
 
+static void button_test(GtkWidget *widget, gpointer data);
+static void menu(void);
 
 int main(int argc, char* argv[])
 {
-    GtkWidget* window;
-    GtkWidget* vbox;
-    GtkWidget* frame;
-    GtkWidget* selfStart;
-    GtkWidget* makeRoom;
-    GtkWidget* CloseBtn;
-    GtkWidget* table;
-    GtkWidget* wins;
     /*INITIALIZE */
     gtk_init(&argc, &argv);
-
-
 
     /* DIALOG'S ADDED */
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -46,13 +34,34 @@ int main(int argc, char* argv[])
     g_signal_connect( G_OBJECT (window), "destroy",
             G_CALLBACK(gtk_main_quit), NULL);
 
+    menu();
+
+    gtk_widget_show_all (window);
+        
+    gtk_main();
+    
+    return 0;
+}
+
+
+static void button_test(GtkWidget *widget, gpointer data)
+{
+    printf("I'm testing button\n");
+    gtk_widget_destroy (table);
+    table=NULL;
+}
+
+static void menu(void)
+{
+
 	/*vertical box */
 	vbox = gtk_vbox_new(TRUE, 1);
 	
 	selfStart = gtk_button_new_with_label("SelfStart");
 	makeRoom = gtk_button_new_with_label("Make Room");
 	CloseBtn = gtk_button_new_with_label("CLOSE");
-
+	
+	g_signal_connect( G_OBJECT (selfStart), "clicked" , G_CALLBACK(button_test), (gpointer)table);
     g_signal_connect( G_OBJECT (CloseBtn), "clicked", G_CALLBACK(gtk_main_quit), NULL);
 
 
@@ -73,11 +82,5 @@ int main(int argc, char* argv[])
 
     gtk_container_add(GTK_CONTAINER (window), table);
     
-
-    gtk_widget_show_all (window);
-        
-    gtk_main();
-    
-
-    return 0;
 }
+
